@@ -30,9 +30,12 @@ def main():
     lean_results = read_lean_results() if has_lean else {"tests": [{"name": "No .lean file found", "score": 0, "output": "You are expected to upload exactly one .lean file!", "status": "failed"}]}
     tex_results = read_tex_results() if has_tex else {"tests": [{"name": "No .tex file found", "score": 0, "output": "You are expected to upload at least one .tex file!", "status": "failed"}]}
 
+    results = {"tests": lean_results["tests"] + tex_results["tests"]}
+    total_score = sum(t["score"] for t in results["tests"] if "score" in t)
+    results["score"] = total_score
 
     with open("results/results.json", "w") as f_out:
-        f_out.write(json.dumps({"tests": lean_results["tests"] + tex_results["tests"]}))
+        f_out.write(json.dumps())
 
 if __name__ == "__main__":
     main()
