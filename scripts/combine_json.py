@@ -13,7 +13,15 @@ def read_lean_results():
         json_lean = json.loads(s_lean)  
         # The lean result contains a "tests" field iff it was able to complete testing - otherwise
         # it just has a score of 0 and a description of the error that prevented testing.
-        return { "tests": (json_lean["tests"] if "tests" in json_lean else json_lean) }
+        if "tests" not in json_lean:
+            return json_lean 
+        else:
+            tests = json_lean["tests"]
+            max_scores = {"HW4.problem_1": 2, "HW4.problem_2": 2, "HW4.problem_3": 2, "HW4.problem_4": 3}
+            for t in tests:
+                t["max_score"] = max_scores[t['name']]
+            return {'tests': tests}
+        # return { "tests": (json_lean["tests"] if "tests" in json_lean else json_lean) }
 
 
 def main():
