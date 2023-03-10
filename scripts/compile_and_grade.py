@@ -68,7 +68,7 @@ def grade(filename):
         log_analysis_output = log_analysis_file.read()
 
     warning_test = {"name": "Warnings", "output": log_analysis_output, "visibility": "visible"}
-    output_tests = [warning_test, log_test]
+    output_tests = [warning_test]
 
     if "0 warnings" in log_analysis_output:
         warning_test["name"] = "No warnings!"
