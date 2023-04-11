@@ -86,8 +86,11 @@ if [ $TEXFILES -ge 1 ]; then
 
     unzip template.zip -d tex_template
 
+    # Some templates have an extra subdirectory inside
     mv tex_template/*/*.cls tex_submission || true 
     mv tex_template/*/*.sty tex_submission || true 
+    mv tex_template/*.cls tex_submission || true 
+    mv tex_template/*.sty tex_submission || true
 
     mv tex_submission submission
 
