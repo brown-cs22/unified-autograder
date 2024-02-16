@@ -25,7 +25,11 @@ if [ $TEXFILES -ge 1 ]; then
 
   unzip template.zip -d tex_submission
 
+  cp tex_submission/cs22template.cls .
+
   cp submission/* tex_submission/
+
+  cp ./cs22template.cls tex_submission/
 
 fi
 
