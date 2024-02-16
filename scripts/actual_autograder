@@ -20,7 +20,11 @@ fi
   
 if [ $TEXFILES -ge 1 ]; then 
 
-  mkdir tex_submission
+  
+  curl $TEX_TEMPLATE --output template.zip 
+
+  unzip template.zip -d tex_submission
+
   cp submission/* tex_submission/
 
 fi
@@ -81,21 +85,6 @@ mv unified_ag_src source
 
 
 if [ $TEXFILES -ge 1 ]; then 
-
-    curl $TEX_TEMPLATE --output template.zip 
-
-    unzip template.zip -d tex_template
-
-    source_dir="tex_template"
-    destination_dir="tex_submission"
-
-    # Move all files except .tex files from source directory to destination directory recursively
-    find "$source_dir" -type f ! -name "*.tex" -exec sh -c '
-      for file do
-        mkdir -p "$1/${file%/*}"
-        mv "$file" "$1/$file"
-      done
-    ' sh "$destination_dir" {} +
 
     mv tex_submission submission
 
