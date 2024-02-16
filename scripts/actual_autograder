@@ -86,11 +86,16 @@ if [ $TEXFILES -ge 1 ]; then
 
     unzip template.zip -d tex_template
 
-    # Some templates have an extra subdirectory inside
-    mv tex_template/*/*.cls tex_submission || true 
-    mv tex_template/*/*.sty tex_submission || true 
-    mv tex_template/*.cls tex_submission || true 
-    mv tex_template/*.sty tex_submission || true
+    source_dir="tex_template"
+    destination_dir="tex_submission"
+
+    # Move all files except .tex files from source directory to destination directory recursively
+    find "$source_dir" -type f ! -name "*.tex" -exec sh -c '
+      for file do
+        mkdir -p "$1/${file%/*}"
+        mv "$file" "$1/$file"
+      done
+    ' sh "$destination_dir" {} +
 
     mv tex_submission submission
 
