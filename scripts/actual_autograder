@@ -54,7 +54,7 @@ if [ $LEANFILES == 1 ]; then
 
     ~/.elan/bin/lake update
 
-    ./lake-packages/autograder/run_autograder_main
+    ./.lake/packages/autograder/run_autograder_main
 
     cd ..
 
