@@ -10,6 +10,7 @@ cd /autograder
 
 apt install -y jq
 apt install -y texlive-full python3 python3-pip python3-dev
+pip3 install bs4 requests-toolbelt pypdf
 
 cp source/config.json ./
 

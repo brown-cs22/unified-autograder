@@ -1,7 +1,8 @@
 {
-    "public_repo": "brown-cs22/CS22-Lean-2023",
-    "autograder_repo": "brown-cs22/CS22-Lean-2023",
-    "assignment_path": "BrownCs22/Homework/Hw7.lean",
-    "this_repo": "brown-cs22/unified-autograder",
-    "tex_template": "https://cs22.io/static/hw//templates/hw07_template.zip" 
+  "public_repo": "brown-cs22/CS22-Lean-2023",
+  "autograder_repo": "brown-cs22/CS22-Lean-2023",
+  "assignment_path": "BrownCs22/Homework/Hw7.lean",
+  "this_repo": "brown-cs22/unified-autograder",
+  "tex_template": "https://cs22.io/static/hw//templates/hw07_template.zip",
+  "upload_enabled": true
 }
