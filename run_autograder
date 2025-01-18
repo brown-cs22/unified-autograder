@@ -8,5 +8,7 @@ TEX_TEMPLATE=$(jq -r '.tex_template' < config.json)
 set -ex
 cd /autograder/unified_ag_src
 git pull
+# For TeX-only autograding
+# mv /autograder/source/tex_only.py ./scripts/combine_json.py
 ./scripts/actual_autograder $TEX_TEMPLATE
 
