@@ -25,6 +25,9 @@ if [ $TEXFILES -ge 1 ]; then
 
   unzip template.zip -d tex_submission
 
+  # Remove main.tex from template
+  rm tex_submission/main.tex
+
   cp tex_submission/cs22template.cls .
 
   cp submission/* tex_submission/
