@@ -35,9 +35,9 @@ def add_test(name, output, passed):
     with open(RESULT, "r") as f:
         result = json.load(f)
     if "tests" in result:
-        result["tests"] = result["tests"] + [{"name": name, "output": output, "status": "passed" if passed == True else "failed", "visibility": "visible"}]
+        result["tests"] = result["tests"] + [{"name": name, "output": output, "status": "passed" if passed else "failed", "visibility": "visible"}]
     else:
-        result["tests"] = [{"name": name, "output": output, "status": "passed" if passed == True else "failed", "visibility": "visible"}]
+        result["tests"] = [{"name": name, "output": output, "status": "passed" if passed else "failed", "visibility": "visible"}]
     with open(RESULT, "w") as f:
         f.write(json.dumps(result))
 
@@ -219,7 +219,7 @@ def set_pages(submission_url, pages):
     status = 1
     while status == 1:
         status_response = session.get(attachment_status_url)
-        if status_response.ok == False:
+        if not status_response.ok:
             add_test("Page Assignment Failure", "Failed to check PDF attachment status on Gradescope. Please try again or contact the course staff.", False)
             sys.exit(1)
         status = status_response.json()["status"]
@@ -231,7 +231,7 @@ def set_pages(submission_url, pages):
         sys.exit(1)
     # Get processed page IDs in JSON
     select_pages_json = session.get(select_pages_url, headers={"Accept": "application/json"})
-    if select_pages_json.ok == False:
+    if not select_pages_json.ok:
         add_test("Page Assignment Failure", "Failed to get pages in JSON format from Gradescope. Please try again or contact the course staff.", False)
         sys.exit(1)
     pages_resp = select_pages_json.json()["pdf_attachment"]["pages"]
