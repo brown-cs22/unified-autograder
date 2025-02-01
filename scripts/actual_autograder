@@ -30,7 +30,7 @@ if [ $TEXFILES -ge 1 ]; then
 
   cp tex_submission/cs22template.cls .
 
-  cp submission/* tex_submission/
+  cp -r submission/* tex_submission/
 
   cp ./cs22template.cls tex_submission/
 
