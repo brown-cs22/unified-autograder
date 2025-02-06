@@ -8,6 +8,13 @@ LEANFILES=$(find submission/ -mindepth 1 -maxdepth 1 -type f -name "*.lean" -pri
 TEXFILES=$(find submission/ -mindepth 1 -maxdepth 1 -type f -name "*.tex" -printf x | wc -c)
 TEX_TEMPLATE=$1
 
+# If neither Lean nor Tex was submitted
+
+if [ $LEANFILES == 0 && $TEXFILES == 0 ]; then
+  printf '%s' "{"tests":[{"score":0,"status":"failed","name":"No TeX or Lean files found","output":"Please submit the correct files."}]}" > results/results.json
+  exit
+fi
+
 # We're expecting students to submit two files, a .tex file and a .lean file, but the two autograders
 # expect the submission dir to contain either one or the other. So we split them out to start.
 
