@@ -11,7 +11,7 @@ TEX_TEMPLATE=$1
 # If neither Lean nor Tex was submitted
 
 if [ $LEANFILES == 0 ] && [ $TEXFILES == 0 ]; then
-  printf '%s' "{"tests":[{"score":0,"status":"failed","name":"No TeX or Lean files found","output":"Please submit the correct files."}]}" > results/results.json
+  echo '{"tests":[{"score":0,"status":"failed","name":"No TeX or Lean files found","output":"Please submit the correct files."}]}' > results/results.json
   exit
 fi
 
