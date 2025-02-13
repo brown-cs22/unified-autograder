@@ -17,8 +17,7 @@ def read_lean_results():
 
 def main():
     has_lean, has_tex = os.path.isfile("/autograder/lean_results.json"), os.path.isfile("/autograder/tex_results.json")
-
-    # pdf_submitted = any(file.endswith(".pdf") for file in os.listdir("/autograder/submission/"))
+    pdf_submitted = os.path.isfile("/autograder/pdf_submitted")
 
     lean_results = read_lean_results() if has_lean else {"tests": [{"name": "No .lean file found", "score": 0, "output": "You are expected to upload exactly one .lean file!", "status": "failed"}]}
     tex_results = read_tex_results() if has_tex else {"tests": [{"name": "No .tex file found", "score": 0, "output": "You are expected to upload at least one .tex file!", "status": "failed"}]}
@@ -38,8 +37,9 @@ def main():
                     tex_results["tests"][idx]["status"] = "failed"
                 del(tex_results["tests"][idx]["score"])
                 del(tex_results["tests"][idx]["max_score"])
-    #if pdf_submitted:
-    #    tex_results["tests"] += [{"name": "PDF submitted!", "output": "You have submitted a PDF file to the wrong assignment. It will be ignored.", "status": "failed"}]
+
+    if pdf_submitted:
+        tex_results["tests"] += [{"name": "PDF ignored", "output": "You have submitted a PDF file to the wrong assignment. It will be ignored.", "status": "failed"}]
 
     results = {"tests": lean_results["tests"] + tex_results["tests"]}
     total_score = sum(t["score"] for t in results["tests"] if "score" in t)

@@ -6,13 +6,18 @@ cd /autograder
 
 LEANFILES=$(find submission/ -mindepth 1 -maxdepth 1 -type f -name "*.lean" -printf x | wc -c)
 TEXFILES=$(find submission/ -mindepth 1 -maxdepth 1 -type f -name "*.tex" -printf x | wc -c)
+PDF=$(find submission/ -mindepth 1 -maxdepth 1 -type f -name "*.pdf" -printf x | wc -c)
 TEX_TEMPLATE=$1
 
 # If neither Lean nor Tex was submitted
-
 if [ $LEANFILES == 0 ] && [ $TEXFILES == 0 ]; then
   echo '{"tests":[{"score":0,"status":"failed","name":"No TeX or Lean files found","output":"Please submit the correct files."}]}' > results/results.json
   exit
+fi
+
+# If a PDF file was submitted
+if [ $PDF == 1 ]; then
+  touch /autograder/pdf_submitted
 fi
 
 # We're expecting students to submit two files, a .tex file and a .lean file, but the two autograders
