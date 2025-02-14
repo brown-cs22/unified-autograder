@@ -46,7 +46,7 @@ def main():
     results["score"] = total_score
 
     with open("results/results.json", "w") as f_out:
-        f_out.write(json.dumps(results))
+        json.dump(results, f_out)
 
 if __name__ == "__main__":
     main()

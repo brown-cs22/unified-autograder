@@ -25,7 +25,7 @@ def write_result(output_header, output_text, output_score=1, output_max_score=1,
     result = {}
     result["tests"] = [{"name": output_header, "output": output_text, "score": output_score, "max_score": output_max_score, "visibility": "visible"}] + dropdown_results
     with open(RESULT, "w") as f:
-        f.write(json.dumps(result))
+        json.dump(result, f)
 
 # Add a test without a score to the autograder output
 def add_test(name, output, passed):
@@ -37,7 +37,7 @@ def add_test(name, output, passed):
     else:
         result["tests"] = [{"name": name, "output": output, "status": "passed" if passed else "failed", "visibility": "visible"}]
     with open(RESULT, "w") as f:
-        f.write(json.dumps(result))
+        json.dump(result, f)
 
 def get_filename():
     """

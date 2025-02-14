@@ -4,7 +4,7 @@ secrets = {}
 config_file = {}
 with open("/autograder/source/upload_secrets.json", "r") as f:
     secrets = json.load(f)
-with open("/autograder/source/config.json", "r") as f:
+with open("/autograder/config.json", "r") as f:
     config_file = json.load(f)
 course_id = secrets["course_id"]
 assignment_id = secrets["assignment_id"]
