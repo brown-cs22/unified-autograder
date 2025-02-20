@@ -140,6 +140,8 @@ def upload():
         session.headers.update({"X-CSRF-Token": csrf_token})
     else:
         add_test("PDF Assignment Upload Error", "There was an error logging into Gradescope. Please try again or inform the course staff.", False)
+        print(f'Gradescope response code was {login_resp.status_code}. Details below:')
+        print(login_resp.json())
         sys.exit(1)
 
     # Get student ID from submission metadata - assumes this is not a group assignment
@@ -170,6 +172,8 @@ def upload():
         upload_response = session.post(SUBMISSIONS_ENDPOINT, data=multipart, headers=headers)
     if upload_response.url == COURSE_ENDPOINT or upload_response.url.endswith("submissions"):
         add_test("PDF Assignment Upload Error", "There was an error uploading your compiled PDF file to Gradescope. Please try again or inform the course staff.", False)
+        print(f'Gradescope response code was {upload_response.status_code}. Details below:')
+        print(upload_response.json())
         sys.exit(1)
     add_test("PDF Upload Successful", "Your compiled PDF has successfully been uploaded to Gradescope. Please go into the PDF assignment and make sure it looks correct. NOTE: The assignment will show up as if it was submitted late, regardless if you submitted on time. Don't worry.", True)
     # Return the submission URL
@@ -219,6 +223,8 @@ def set_pages(submission_url, pages):
         status_response = session.get(attachment_status_url)
         if not status_response.ok:
             add_test("Page Assignment Failure", "Failed to check PDF attachment status on Gradescope. Please try again or contact the course staff.", False)
+            print(f'Gradescope response code was {status_response.status_code}. Details below:')
+            print(status_response.json())
             sys.exit(1)
         status = status_response.json()["status"]
         if status == 2:
@@ -226,11 +232,15 @@ def set_pages(submission_url, pages):
         time.sleep(5)
     if status != 2:
         add_test("Page Assignment Failure", "Unknown PDF processing status encountered. Please try again or contact the course staff.", False)
+        print(f'Gradescope response code was {status_response.status_code}. Details below:')
+        print(status_response.json())
         sys.exit(1)
     # Get processed page IDs in JSON
     select_pages_json = session.get(select_pages_url, headers={"Accept": "application/json"})
     if not select_pages_json.ok:
         add_test("Page Assignment Failure", "Failed to get pages in JSON format from Gradescope. Please try again or contact the course staff.", False)
+        print(f'Gradescope response code was {select_pages_json.status_code}. Details below:')
+        print(select_pages_json.json())
         sys.exit(1)
     pages_resp = select_pages_json.json()["pdf_attachment"]["pages"]
     # Convert pages list to dictionary and page numbers to Gradescope IDs
@@ -245,6 +255,8 @@ def set_pages(submission_url, pages):
         add_test("Page Assignment Successful", "Auto-assignment of PDF pages successful. Please go into the PDF assignment, check and re-assign pages if it has been done incorrectly.", True)
     else:
         add_test("Page Assignment Failure", "Invalid response received while trying to update page selection on Gradescope. Please try again or contact the course staff.", False)
+        print(f'Gradescope response code was {update_pages_resp.status_code}. Details below:')
+        print(update_pages_resp.json())
         sys.exit(1)
 
 # Removes [draft] from the tex if someone forgot to do that
