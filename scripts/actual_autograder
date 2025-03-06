@@ -4,7 +4,13 @@ set -ex
 
 cd /autograder
 
-LEANFILES=$(find submission/ -mindepth 1 -maxdepth 1 -type f -name "*.lean" -printf x | wc -c)
+if [ ! -f 'no_lean' ]; then
+  LEANFILES=$(find submission/ -mindepth 1 -maxdepth 1 -type f -name "*.lean" -printf x | wc -c)
+else
+  LEANFILES=0
+  echo '{"tests":[]}' > /autograder/lean_results.json
+fi
+
 TEXFILES=$(find submission/ -mindepth 1 -maxdepth 1 -type f -name "*.tex" -printf x | wc -c)
 PDF=$(find submission/ -mindepth 1 -maxdepth 1 -type f -name "*.pdf" -printf x | wc -c)
 TEX_TEMPLATE=$1

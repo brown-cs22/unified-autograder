@@ -4,19 +4,35 @@
 # The idea is that it prepares the docker image, and when a student submits, that image gets cloned
 # for the autograding to happen. 
 
+# MikTeX repo
+curl -fsSL https://miktex.org/download/key | tee /usr/share/keyrings/miktex-keyring.asc > /dev/null
+echo "deb [signed-by=/usr/share/keyrings/miktex-keyring.asc] https://miktex.org/download/ubuntu jammy universe" | tee /etc/apt/sources.list.d/miktex.list
+
 apt update
 
 cd /autograder
 
 apt install -y jq
-apt install -y texlive-full python3 python3-pip python3-dev
+apt install -y miktex python3 python3-pip python3-dev
 pip3 install bs4 requests-toolbelt pypdf
+
+# MikTeX setup
+miktexsetup --shared=yes finish
+initexmf --admin --set-config-value [MPM]AutoInstall=1
 
 cp source/config.json ./
 
 THIS_REPO=$(jq -r '.this_repo' < config.json)
 git clone "https://github.com/$THIS_REPO" "unified_ag_src"
 cp source/upload_secrets.json unified_ag_src/
+
+# Skip Lean setup if there is no assignment path
+
+if [ -z "$(jq -r '.assignment_path' < config.json)" ]; then
+    echo "Skipping Lean autograder setup"
+    touch no_lean
+    exit
+fi
 
 #########################################
 ##  LEAN AUTOGRADER SETUP
