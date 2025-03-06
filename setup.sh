@@ -26,7 +26,7 @@ THIS_REPO=$(jq -r '.this_repo' < config.json)
 git clone "https://github.com/$THIS_REPO" "unified_ag_src"
 cp source/upload_secrets.json unified_ag_src/
 cp unified_ag_src/packages.txt .
-mpm --admin --install-some=packages.txt
+mpm --admin --update-some=packages.txt
 rm packages.txt
 
 # Skip Lean setup if there is no assignment path
