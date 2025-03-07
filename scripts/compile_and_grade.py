@@ -62,8 +62,7 @@ def compile_file(filename):
     """
     Compiles the file and returns the output.
     """
-    command = "pdflatex -shell-escape -interaction=nonstopmode -halt-on-error -jobname=submission " + shlex.quote(SUBMISSION + filename) + " > " + OUTPUT
-    os.system(command)
+    command = "latexmk -pdf -interaction=nonstopmode -halt-on-error -jobname=submission " + shlex.quote(SUBMISSION + filename) + " > " + OUTPUT
     os.system(command)
 
 def grade():

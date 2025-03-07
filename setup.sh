@@ -25,9 +25,15 @@ cp source/config.json ./
 THIS_REPO=$(jq -r '.this_repo' < config.json)
 git clone "https://github.com/$THIS_REPO" "unified_ag_src"
 cp source/upload_secrets.json unified_ag_src/
-cp unified_ag_src/packages.txt .
-mpm --admin --update-some=packages.txt
-rm packages.txt
+
+# Compile empty template to install default imported packages
+curl "$(jq -r '.tex_template' < config.json)" --output template.zip
+unzip template.zip -d template
+cd template
+latexmk -pdf -halt-on-error -interaction=nonstopmode main.tex
+cd ..
+rm template.zip
+rm -rf template
 
 # Skip Lean setup if there is no assignment path
 
