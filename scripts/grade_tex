@@ -4,4 +4,4 @@ export LC_ALL=C
 
 # Runs autograder
 # cp /autograder/source/templates/compile/* /autograder/submission
-python3 /autograder/source/scripts/compile_and_grade.py
+python3 /autograder/unified_ag_src/scripts/compile_and_grade.py
