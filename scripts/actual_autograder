@@ -46,18 +46,12 @@ if [ $TEXFILES -ge 1 ]; then
   # Remove main.tex from template
   rm tex_submission/main.tex
 
-  cp tex_submission/cs22template.cls .
-
   cp -r submission/* tex_submission/
-
-  cp ./cs22template.cls tex_submission/
 
 fi
 
 
 rm -rf submission
-
-mv source unified_ag_src
 
 
 #########################################
@@ -68,8 +62,7 @@ if [ $LEANFILES == 1 ]; then
 
 
     mv lean_submission submission
-    mv lean_ag_src source
-    cd source
+    cd lean_ag_src
 
     git pull
 
@@ -95,13 +88,7 @@ if [ $LEANFILES == 1 ]; then
 
     mv submission lean_submission
 
-
-    mv source lean_ag_src
-
 fi
-
-
-mv unified_ag_src source
 
 #########################################
 ##  TEX AUTOGRADER EXECUTION
@@ -116,7 +103,7 @@ if [ $TEXFILES -ge 1 ]; then
     cd submission
 
     # The OR is so that a compilation failure doesn't ruin the whole autograding script.
-    ../source/scripts/grade_tex || true
+    ../unified_ag_src/scripts/grade_tex || true
 
     cd ..
 
@@ -124,4 +111,4 @@ if [ $TEXFILES -ge 1 ]; then
 
 fi
 
-python3 source/scripts/combine_json.py
+python3 unified_ag_src/scripts/combine_json.py
