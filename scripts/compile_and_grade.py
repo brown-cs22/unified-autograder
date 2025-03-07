@@ -85,7 +85,7 @@ def grade():
         write_result("Error compiling", "There was a fatal error while compiling the submission and no PDF file was produced. \nPlease check your .tex file and try again. The log file is shown below. ", 0, 1, [log_test])
         sys.exit(1)
 
-    os.system(f"${SOURCE}scripts/texloganalyser --last -w " + log + " > " + LOG_ANALYSIS_OUTPUT)
+    os.system(f"{SOURCE}scripts/texloganalyser --last -w " + log + " > " + LOG_ANALYSIS_OUTPUT)
 
     with open(LOG_ANALYSIS_OUTPUT, "r") as log_analysis_file:
         log_analysis_output = log_analysis_file.read()
